@@ -1,23 +1,156 @@
-/* CIFAR-10 Image Recognition - Styles */
-/* Placeholder - will be implemented in Stage 5 */
-
+/* Background */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f5f5f5;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #1a2a6c, #3a1c71, #fdbb2d);
+  background-size: 400% 400%;
+  animation: gradientShift 9s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.start-btn {
+  margin-top: 15px;
+  padding: 12px 25px;
+  border: none;
+  background: #00eaff;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000;
+  font-weight: 600;
+  transition: 0.25s;
 }
 
-h1 {
-    color: #333;
-    text-align: center;
+.start-btn:hover {
+  transform: scale(1.05);
+  background: #5ffbff;
+}
+
+
+/* Glass card */
+.glass-card {
+  width: 420px;
+  padding: 30px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Title */
+.title {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
+/* Drag & Drop */
+.dropzone {
+  border: 2px dashed #ffffff66;
+  padding: 40px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+  color: #eee;
+}
+
+.dropzone:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #fff;
+  transform: scale(1.02);
+}
+
+.dropzone p span {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* Image Preview */
+#preview {
+  width: 160px;
+  height: 160px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 12px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.15);
+  padding: 8px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Loader */
+.loader {
+  border: 6px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  width: 50px;
+  height: 50px;
+  margin: 20px auto;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Prediction Card */
+.results {
+  margin-top: 25px;
+  text-align: left;
+}
+
+.pred-item {
+  background: rgba(255,255,255,0.15);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  animation: slideUp 0.4s ease-out;
+}
+
+.pred-label {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.progress-bar {
+  background: rgba(255,255,255,0.3);
+  height: 8px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #00eaff;
+  width: 0%;
+  transition: width 0.6s ease-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
