@@ -1,0 +1,13 @@
+# Placeholder - will be implemented in Stage 8
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder
+        run: echo "CD workflow to be completed in Stage 8"
