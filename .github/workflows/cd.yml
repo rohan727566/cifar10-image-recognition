@@ -1,13 +1,36 @@
-# Placeholder - will be implemented in Stage 8
 name: CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Placeholder
-        run: echo "CD workflow to be completed in Stage 8"
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Deploy to Render
+        run: |
+          echo "Triggering Render deployment..."
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      
+      - name: Wait for deployment
+        run: sleep 60
+      
+      - name: Verify deployment
+        run: |
+          echo "Checking deployment health..."
+          # Replace with your actual Render URL after deployment
+          # curl --fail https://your-app.onrender.com/health || exit 1
+          echo "Deployment verification skipped - add your Render URL after first deploy"
+      
+      - name: Create deployment tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a "deploy-$(date +'%Y%m%d-%H%M%S')" -m "Deployed to production"
+          git push origin --tags
+        continue-on-error: true

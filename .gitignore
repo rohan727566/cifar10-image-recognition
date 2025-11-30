@@ -79,3 +79,10 @@ Thumbs.db
 *.tmp
 *.bak
 *.swp
+
+
+# CI/CD
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
