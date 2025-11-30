@@ -36,42 +36,41 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Set PYTHONPATH
-        shell: bash
-        run: echo "PYTHONPATH=${{ github.workspace }}/src" >> $GITHUB_ENV
-      
-      - name: Verify imports work
+      - name: Verify Python and imports
         run: |
-          python -c "import sys; print('Python:', sys.version); sys.path.insert(0, 'src'); from cifar_app import config; print('✓ Config imported successfully')"
+          python --version
+          python -c "import sys; sys.path.insert(0, 'src'); from cifar_app.config import *; print('✓ Config module imports successfully')"
+          python -c "import sys; sys.path.insert(0, 'src'); from cifar_app.model import build_model; print('✓ Model module imports successfully')"
       
-      - name: Run linting with ruff (optional)
-        run: |
-          ruff check src/ tests/ || echo "⚠️ Ruff warnings (non-blocking)"
+      - name: Run linting with ruff (informational)
+        run: ruff check src/ tests/
         continue-on-error: true
       
-      - name: Run code formatting check with black (optional)
-        run: |
-          black --check src/ tests/ || echo "⚠️ Black formatting issues (non-blocking)"
+      - name: Run code formatting check with black (informational)
+        run: black --check src/ tests/
         continue-on-error: true
       
-      - name: Run tests with pytest (verbose output)
-        run: |
-          pytest tests/ -v --tb=short --co  # List tests first
-          pytest tests/ -v --tb=short        # Run tests with detailed output
+      - name: List tests
+        run: pytest tests/ --collect-only
       
-      - name: Upload coverage reports (if available)
+      - name: Run pytest with verbose output
+        run: |
+          export PYTHONPATH=${{ github.workspace }}/src:$PYTHONPATH
+          pytest tests/ -v --tb=short --co
+          pytest tests/ -v --tb=short
+      
+      - name: Upload coverage (if available)
         if: always()
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage.xml
-          flags: unittests
-          name: codecov-umbrella
+          fail_ci_if_error: false
         continue-on-error: true
 
   build:
     runs-on: ubuntu-latest
     needs: test
-    if: success()  # Only run if tests pass
+    if: success()
     
     steps:
       - name: Checkout code
@@ -79,5 +78,5 @@ jobs:
       
       - name: Log build success
         run: |
-          echo "✓ All tests passed! Build stage approved."
-          echo "Next: Deploy to Render on main branch"
+          echo "✅ All tests passed!"
+          echo "Build stage approved for deployment"
