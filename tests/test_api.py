@@ -2,26 +2,26 @@
 
 import sys
 from pathlib import Path
+from unittest.mock import patch, MagicMock
 
 # Add src directory to path for GitHub Actions compatibility
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 import io
+import numpy as np
 from PIL import Image
 from fastapi.testclient import TestClient
-from cifar_app.server import app
 
-client = TestClient(app)
+# Mock the model loading BEFORE importing the server
+def mock_load_saved_model(path):
+    """Mock model loader that returns a fake model."""
+    mock_model = MagicMock()
+    mock_model.predict = MagicMock(return_value=np.array([[0.9, 0.05, 0.03, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0]]))
+    return mock_model
 
-# ... rest of the file remains the same
-
-
-"""API endpoint tests using FastAPI TestClient."""
-
-import io
-from PIL import Image
-from fastapi.testclient import TestClient
-from src.cifar_app.server import app
+# Patch the model loading before importing app
+with patch('cifar_app.model.load_saved_model', side_effect=mock_load_saved_model):
+    from cifar_app.server import app
 
 client = TestClient(app)
 
@@ -81,5 +81,5 @@ def test_predict_endpoint_with_invalid_file():
         "/predict",
         files={"file": ("test.txt", b"not an image", "text/plain")},
     )
-    # Should return 400 or similar error
+    # Should return 400 or similar error (not 503)
     assert response.status_code in [400, 422, 500]
