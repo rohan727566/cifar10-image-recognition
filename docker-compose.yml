@@ -1,9 +1,24 @@
-# Placeholder - will be implemented in Stage 7
 version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cifar10-app
     ports:
       - "8000:8000"
-    # Configuration to be completed in Stage 7
+    environment:
+      - MODEL_PATH=/app/model/saved_model
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./model:/app/model
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
