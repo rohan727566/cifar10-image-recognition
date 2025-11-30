@@ -6,6 +6,7 @@ A production-grade image classification system using CNN.
 __version__ = "1.0.0"
 __author__ = "Rohan Kumar, Rishit, Shaurya Vardhan Singh, Vaishnavi Shukla, Sudhanshu Awasthi"
 
-from cifar_app import config
+# Only import config if needed; avoid circular imports
+# The actual import happens in individual modules that need it
 
-__all__ = ["config", "__version__", "__author__"]
+__all__ = ["__version__", "__author__"]

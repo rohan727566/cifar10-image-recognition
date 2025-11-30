@@ -1,5 +1,23 @@
 """API endpoint tests using FastAPI TestClient."""
 
+import sys
+from pathlib import Path
+
+# Add src directory to path for GitHub Actions compatibility
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
+import io
+from PIL import Image
+from fastapi.testclient import TestClient
+from cifar_app.server import app
+
+client = TestClient(app)
+
+# ... rest of the file remains the same
+
+
+"""API endpoint tests using FastAPI TestClient."""
+
 import io
 from PIL import Image
 from fastapi.testclient import TestClient

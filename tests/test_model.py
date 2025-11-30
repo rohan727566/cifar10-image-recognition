@@ -1,5 +1,26 @@
 """Unit tests for model and preprocessing functions."""
 
+import sys
+from pathlib import Path
+
+# Add src directory to path for GitHub Actions compatibility
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
+import numpy as np
+import pytest
+from cifar_app.preprocess import (
+    get_class_names,
+    get_label_from_class,
+    preprocess_image_bytes,
+)
+from cifar_app.model import build_model
+
+# ... rest of the file remains the same
+
+
+
+"""Unit tests for model and preprocessing functions."""
+
 import numpy as np
 import pytest
 from cifar_app.preprocess import (
